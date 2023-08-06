@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Summary Page</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h1 class="my-3">Summary of Registered Citizens</h1>
+
+  <!-- Search and Filter Section -->
+  <form action="/summary" method="get" class="mb-3">
+    <fieldset>
+      <legend>Search Grid:</legend>
+      <div class="row">
+        <div class="col">
+          <label for="startDate" class="form-label">Date of Birth from:</label>
+          <input type="date" name="startDate" id="startDate" class="form-control"/>
+        </div>
+        <div class="col">
+          <label for="endDate" class="form-label">to:</label>
+          <input type="date" name="endDate" id="endDate" class="form-control"/>
+        </div>
+        <div class="col">
+          <label for="cityFilter" class="form-label">City:</label>
+          <select name="cityFilter" id="cityFilter" class="form-select">
+            <option th:each="city : ${T(hac.service.City).values()}" th:value="${city}"
+                    th:text="${city}"></option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary mt-2">Search</button>
+    </fieldset>
+  </form>
+
+  <!-- Table Section -->
+  <table class="table">
+    <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Date of Birth</th>
+      <th>Address</th>
+      <th>City</th>
+      <th>Zip Code</th>
+      <th>Land Line</th>
+      <th>Cellular Phone</th>
+      <th>Had COVID-19 Before</th>
+      <th>Previous Conditions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="citizen : ${citizens}">
+      <td th:text="${citizen.firstName}"></td>
+      <td th:text="${citizen.lastName}"></td>
+      <td th:text="${citizen.dateOfBirth}"></td>
+      <td th:text="${citizen.address}"></td>
+      <td th:text="${citizen.city}"></td>
+      <td th:text="${citizen.zipCode}"></td>
+      <td th:text="${citizen.landLine}"></td>
+      <td th:text="${citizen.cellularPhone}"></td>
+      <td th:text="${citizen.covid19Infected ? 'Yes' : 'No'}"></td>
+      <td th:text="${citizen.previousConditions}"></td> <!-- Assuming you have a toString method -->
+    </tr>
+    </tbody>
+  </table>
+</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
